@@ -63,71 +63,6 @@ public class BTcontroller extends Activity {
         Button r_senkai = (Button)findViewById(R.id.r_senkai);
         Button l_senkai = (Button)findViewById(R.id.l_senkai);
 
-//        handler = new Handler();
-//        r = new Runnable() {
-//            //int count = 0;
-//            @Override
-//            public void run() {
-//                // UIスレッド
-////                count++;
-////                if (count > 5) { // 5回実行したら終了
-////                    return;
-////                }
-//
-//
-////                BTcom.writeMessage("u"+String.valueOf(Up)+"d"+String.valueOf(Down)+
-////                        "r"+String.valueOf(Right)+"l"+String.valueOf(Left)+"m"+String.valueOf(Motor)+
-////                        "a"+String.valueOf(Arm_up)+"b"+String.valueOf(Arm_down)
-////                        +"x"+String.valueOf(Push_up)+"v"+String.valueOf(Push_down));
-//
-////                BTcom.writeMessage("u"+Up+"d"+Down+
-////                        "r"+Right+"l"+Left+"m"+Motor+
-////                        "a"+Arm_up+"b"+Arm_down
-////                        +"x"+Push_up+"v"+Push_down);
-////                BTcom.writeMessage("u");
-////                BTcom.writeMessage(String.valueOf(Up));
-////                BTcom.writeMessage("d");
-////                BTcom.writeMessage(String.valueOf(Down));
-////                BTcom.writeMessage("r");
-////                BTcom.writeMessage(String.valueOf(Right));
-////                BTcom.writeMessage("l");
-////                BTcom.writeMessage(String.valueOf(Left));
-////                BTcom.writeMessage("m");
-////                BTcom.writeMessage(String.valueOf(Motor));
-////                BTcom.writeMessage("a");
-////                BTcom.writeMessage(String.valueOf(Arm_up));
-////                BTcom.writeMessage("b");
-////                BTcom.writeMessage(String.valueOf(Arm_down));
-////                BTcom.writeMessage("x");
-////                BTcom.writeMessage(String.valueOf(Push_up));
-////                BTcom.writeMessage("v");
-////                BTcom.writeMessage(String.valueOf(Push_down));
-//
-////                BTcom.writeMessage(String.valueOf(num_comm_converter(x)));
-////                BTcom.writeMessage("y");
-////                BTcom.writeMessage(String.valueOf(num_comm_converter(y)));
-////                BTcom.writeMessage("z");
-////                BTcom.writeMessage(String.valueOf(num_comm_converter(z)));
-//
-//                handler.postDelayed(this, 300);
-//            }
-//        };
-//
-//        handler.post(r);
-
-
-
-        //シリアル通信のためマイコン側はasciiコードに対応させる
-
-
-//
-//        BTcom.writeMessage("x");
-//        BTcom.writeMessage(String.valueOf(num_comm_converter(x)));
-//        BTcom.writeMessage("y");
-//        BTcom.writeMessage(String.valueOf(num_comm_converter(y)));
-//        BTcom.writeMessage("z");
-//        BTcom.writeMessage(String.valueOf(num_comm_converter(z)));
-
 
 
 
@@ -285,11 +220,6 @@ public class BTcontroller extends Activity {
 
 
 
-
-
-
-
-
     }
     private char num_comm_converter(float num){
         char buff_num;
@@ -297,9 +227,6 @@ public class BTcontroller extends Activity {
         return  (char)(buff_num + 'A');
     }
 
-//  //  private void run(){
-//        Log.e("message",String.valueOf(num_comm_converter(x)));
-//    }
 
     @Override
     public void onResume(){
