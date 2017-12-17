@@ -33,198 +33,110 @@ public class BTcontroller extends Activity {
     private final Handler handler = new Handler();
     private volatile boolean stopRun = false;
 
+    private char send_data = 0b00000000;
+    //最下位ビット（右）の順から右前進ビット、右後退ビット、左前進ビット、左後退ビット
 
 
-    protected void onCreate(Bundle bundle){
+
+    protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.controllerlayout);
         //遷移元のインテントを格納
         beforeintent = getIntent();
         String BTname = beforeintent.getStringExtra("btname");
-        TextView BTnameview = (TextView)findViewById(R.id.infotext);
+        TextView BTnameview = (TextView) findViewById(R.id.infotext);
 
-        final BluetoothCommunicator BTcom = new BluetoothCommunicator(this,BLC,BTname);
-
-
-
+        final BluetoothCommunicator BTcom = new BluetoothCommunicator(this, BLC, BTname);
 
 
         BTcom.getBtname(BTname);
         BTnameview.setText(BTname);
 
+        final Thread t = new Thread(new Runnable() {
 
-        Button up = (Button)findViewById(R.id.up);
-        Button left = (Button)findViewById(R.id.left);
-        Button back = (Button)findViewById(R.id.back);
-        Button right = (Button)findViewById(R.id.right);
-        Button arm_up = (Button)findViewById(R.id.arm_up);
-        Button arm_down = (Button)findViewById(R.id.arm_down);
-        Button UPFire = (Button)findViewById(R.id.UPFire);
-        Button r_senkai = (Button)findViewById(R.id.r_senkai);
-        Button l_senkai = (Button)findViewById(R.id.l_senkai);
+            @Override
+            public void run() {
+                    try {
+                       // ここに繰り返し処理を書く
+                       BTcom.writeMessage(send_data);
+
+                       Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+        });
+        t.start();
 
 
-
-
-
-        //前進ボタンの処理
-        up.setOnTouchListener(new View.OnTouchListener(){
+        //右後退
+        Button right_BK = (Button)findViewById(R.id.right_back);
+        right_BK.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event){
                 if(event.getAction()==MotionEvent.ACTION_DOWN){
                     //ここに指がタッチしたときの処理を記述
-                    BTcom.writeMessage("a");
+                    send_data = (char)(send_data | 0b00000010);
 
                 }else if(event.getAction()==MotionEvent.ACTION_UP){
                     //ここに指を離したときの処理
-                    BTcom.writeMessage("b");
+                    send_data = (char)(send_data & 0b11111101);
                 }
                 return false;
             }
         });
 
-        //左ボタンの処理
-        left.setOnTouchListener(new View.OnTouchListener(){
+        //右前進
+        Button right_AD = (Button)findViewById(R.id.right_advancing);
+        right_AD.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event){
                 if(event.getAction()==MotionEvent.ACTION_DOWN){
                     //ここに指がタッチしたときの処理を記述
-                    BTcom.writeMessage("c");
+                    send_data = (char)(send_data | 0b00000001);
 
                 }else if(event.getAction()==MotionEvent.ACTION_UP){
                     //ここに指を離したときの処理
-                    BTcom.writeMessage("d");
+                    send_data = (char)(send_data & 0b11111110);
                 }
                 return false;
             }
         });
 
-        //後退ボタンの処理
-        back.setOnTouchListener(new View.OnTouchListener(){
+        //左後退
+        Button left_BK = (Button)findViewById(R.id.left_back);
+        left_BK.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event){
                 if(event.getAction()==MotionEvent.ACTION_DOWN){
                     //ここに指がタッチしたときの処理を記述
-                    BTcom.writeMessage("e");
+                    send_data = (char)(send_data | 0b00001000);
 
                 }else if(event.getAction()==MotionEvent.ACTION_UP){
                     //ここに指を離したときの処理
-                    BTcom.writeMessage("f");
-
+                    send_data = (char)(send_data & 0b11110111);
                 }
                 return false;
             }
         });
 
-        //右ボタンの処理
-        right.setOnTouchListener(new View.OnTouchListener(){
+        //左前進
+        Button left_AD = (Button)findViewById(R.id.left_advancing);
+        left_AD.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event){
                 if(event.getAction()==MotionEvent.ACTION_DOWN){
                     //ここに指がタッチしたときの処理を記述
-                    BTcom.writeMessage("g");
+                    send_data = (char)(send_data | 0b00000100);
 
                 }else if(event.getAction()==MotionEvent.ACTION_UP){
                     //ここに指を離したときの処理
-                    BTcom.writeMessage("h");
-
+                    send_data = (char)(send_data & 0b11111011);
                 }
                 return false;
             }
         });
 
-        //腕上昇ボタンの処理
-        arm_up.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event){
-                if(event.getAction()==MotionEvent.ACTION_DOWN){
-                    //ここに指がタッチしたときの処理を記述
-                    BTcom.writeMessage("i");
-
-                }else if(event.getAction()==MotionEvent.ACTION_UP){
-                    //ここに指を離したときの処理
-                    BTcom.writeMessage("j");
-
-                }
-                return false;
-            }
-        });
-
-        //腕下降ボタンの処理
-        arm_down.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event){
-                if(event.getAction()==MotionEvent.ACTION_DOWN){
-                    //ここに指がタッチしたときの処理を記述
-                    BTcom.writeMessage("k");
-
-                }else if(event.getAction()==MotionEvent.ACTION_UP){
-                    //ここに指を離したときの処理
-                    BTcom.writeMessage("l");
-
-                }
-                return false;
-            }
-        });
-
-        //Fireボタン
-        UPFire.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event){
-                if(event.getAction()==MotionEvent.ACTION_DOWN){
-                    //ここに指がタッチしたときの処理を記述
-                    BTcom.writeMessage("o");
-
-                }else if(event.getAction()==MotionEvent.ACTION_UP){
-                    //ここに指を離したときの処理
-                    BTcom.writeMessage("p");
-
-                }
-                return false;
-            }
-        });
-
-        //左旋回ボタン
-        l_senkai.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event){
-                if(event.getAction()==MotionEvent.ACTION_DOWN){
-                    //ここに指がタッチしたときの処理を記述
-                    BTcom.writeMessage("q");
-
-                }else if(event.getAction()==MotionEvent.ACTION_UP){
-                    //ここに指を離したときの処理
-                    BTcom.writeMessage("r");
-
-                }
-                return false;
-            }
-        });
-
-        //右旋回ボタン
-        r_senkai.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event){
-                if(event.getAction()==MotionEvent.ACTION_DOWN){
-                    //ここに指がタッチしたときの処理を記述
-                    BTcom.writeMessage("s");
-
-                }else if(event.getAction()==MotionEvent.ACTION_UP){
-                    //ここに指を離したときの処理
-                    BTcom.writeMessage("t");
-
-                }
-                return false;
-            }
-        });
-
-
-
-    }
-    private char num_comm_converter(float num){
-        char buff_num;
-        buff_num = (char)Math.floor((double)num*10);
-        return  (char)(buff_num + 'A');
     }
 
 
@@ -232,40 +144,7 @@ public class BTcontroller extends Activity {
     public void onResume(){
         super.onResume();
 
-
     }
-
-    public char change_char(float num){
-        int buff;
-        buff = (int)(num*10);
-        return (char)(num+'A');
-    }
-
-
-    @Override
-    public boolean onGenericMotionEvent(MotionEvent event){
-//        String BTname = beforeintent.getStringExtra("btname");
-//        final BluetoothCommunicator BTcom = new BluetoothCommunicator(this,BLC,BTname);
-       boolean handled = false; // 処理したらtrueに
-
-        // 左ジョイスティックの値をログ出力してみる
-//        Arm_up = change_char(event.getAxisValue(MotionEvent.AXIS_X));
-//
-//        Arm_down = change_char(event.getAxisValue(MotionEvent.AXIS_RZ));
-
-       // BTcom.writeMessage(String.valueOf(num_comm_converter(x)));
-
-        Log.e("messagejoystick",String.valueOf(num_comm_converter(x)));
-
-//        String msg = "(armup,armdown)=" + Arm_up + "," + Arm_down;
-       // Log.e("GamePad", msg);
-
-        return handled || super.onGenericMotionEvent(event);
-    }
-
-
-
-
 
 
 }

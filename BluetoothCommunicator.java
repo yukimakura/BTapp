@@ -60,6 +60,27 @@ public class BluetoothCommunicator {
         }).start();
     }
 
+    public void writeMessage(char cstr) {
+
+        final String str = String.valueOf(cstr);
+
+
+        if (mOutputStream == null | TextUtils.isEmpty(str)) {
+            return;
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mOutputStream.write(str.getBytes());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
     public void getBtname(String name){
         BtDeviceName = name;
     }
