@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,11 +41,16 @@ public class BTcontroller extends Activity {
 
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        setContentView(R.layout.controllerlayout);
+
+        GridLayout glayout = new GridLayout(this);
+
+        setContentView(glayout);
+
         //遷移元のインテントを格納
         beforeintent = getIntent();
         String BTname = beforeintent.getStringExtra("btname");
         TextView BTnameview = (TextView) findViewById(R.id.infotext);
+        final TextView status_num_bin = (TextView)findViewById(R.id.status);
 
         final BluetoothCommunicator BTcom = new BluetoothCommunicator(this, BLC, BTname);
 
@@ -69,73 +75,6 @@ public class BTcontroller extends Activity {
         t.start();
 
 
-        //右後退
-        Button right_BK = (Button)findViewById(R.id.right_back);
-        right_BK.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event){
-                if(event.getAction()==MotionEvent.ACTION_DOWN){
-                    //ここに指がタッチしたときの処理を記述
-                    send_data = (char)(send_data | 0b00000010);
-
-                }else if(event.getAction()==MotionEvent.ACTION_UP){
-                    //ここに指を離したときの処理
-                    send_data = (char)(send_data & 0b11111101);
-                }
-                return false;
-            }
-        });
-
-        //右前進
-        Button right_AD = (Button)findViewById(R.id.right_advancing);
-        right_AD.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event){
-                if(event.getAction()==MotionEvent.ACTION_DOWN){
-                    //ここに指がタッチしたときの処理を記述
-                    send_data = (char)(send_data | 0b00000001);
-
-                }else if(event.getAction()==MotionEvent.ACTION_UP){
-                    //ここに指を離したときの処理
-                    send_data = (char)(send_data & 0b11111110);
-                }
-                return false;
-            }
-        });
-
-        //左後退
-        Button left_BK = (Button)findViewById(R.id.left_back);
-        left_BK.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event){
-                if(event.getAction()==MotionEvent.ACTION_DOWN){
-                    //ここに指がタッチしたときの処理を記述
-                    send_data = (char)(send_data | 0b00001000);
-
-                }else if(event.getAction()==MotionEvent.ACTION_UP){
-                    //ここに指を離したときの処理
-                    send_data = (char)(send_data & 0b11110111);
-                }
-                return false;
-            }
-        });
-
-        //左前進
-        Button left_AD = (Button)findViewById(R.id.left_advancing);
-        left_AD.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event){
-                if(event.getAction()==MotionEvent.ACTION_DOWN){
-                    //ここに指がタッチしたときの処理を記述
-                    send_data = (char)(send_data | 0b00000100);
-
-                }else if(event.getAction()==MotionEvent.ACTION_UP){
-                    //ここに指を離したときの処理
-                    send_data = (char)(send_data & 0b11111011);
-                }
-                return false;
-            }
-        });
 
     }
 
