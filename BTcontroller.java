@@ -45,6 +45,7 @@ public class BTcontroller extends Activity {
         beforeintent = getIntent();
         String BTname = beforeintent.getStringExtra("btname");
         TextView BTnameview = (TextView) findViewById(R.id.infotext);
+        final TextView status_num_bin = (TextView)findViewById(R.id.status);
 
         final BluetoothCommunicator BTcom = new BluetoothCommunicator(this, BLC, BTname);
 
@@ -82,6 +83,8 @@ public class BTcontroller extends Activity {
                     //ここに指を離したときの処理
                     send_data = (char)(send_data & 0b11111101);
                 }
+                String s = String.format("%8s", Integer.toBinaryString(send_data)).replaceAll(" ", "0");
+                status_num_bin.setText(s);
                 return false;
             }
         });
@@ -99,6 +102,8 @@ public class BTcontroller extends Activity {
                     //ここに指を離したときの処理
                     send_data = (char)(send_data & 0b11111110);
                 }
+                String s = String.format("%8s", Integer.toBinaryString(send_data)).replaceAll(" ", "0");
+                status_num_bin.setText(s);
                 return false;
             }
         });
@@ -116,6 +121,8 @@ public class BTcontroller extends Activity {
                     //ここに指を離したときの処理
                     send_data = (char)(send_data & 0b11110111);
                 }
+                String s = String.format("%8s", Integer.toBinaryString(send_data)).replaceAll(" ", "0");
+                status_num_bin.setText(s);
                 return false;
             }
         });
@@ -133,6 +140,8 @@ public class BTcontroller extends Activity {
                     //ここに指を離したときの処理
                     send_data = (char)(send_data & 0b11111011);
                 }
+                String s = String.format("%8s", Integer.toBinaryString(send_data)).replaceAll(" ", "0");
+                status_num_bin.setText(s);
                 return false;
             }
         });
